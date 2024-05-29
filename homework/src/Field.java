@@ -9,10 +9,10 @@ public class Field {
 
 	public Type type;
 	
-	public Car car;
+	public Customer customer;
 	public String agent;
 	
 	public boolean obstacle() {
-		return !(type == Type.Table && car==null && agent==null);
+		return !(type == Type.Table && customer==null && agent==null);
 	}	
 }

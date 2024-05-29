@@ -1,9 +1,3 @@
-/*
-   Project Garage
-
-   Gradle build file for Jason Application
-   May 28, 2024 - 00:04:50
-*/
 
 defaultTasks 'run'
 
@@ -42,7 +36,7 @@ sourceSets {
 task run (type: JavaExec, dependsOn: 'classes') {
     description 'runs the application'
     mainClass = 'jason.infra.local.RunLocalMAS'
-    args = ['Garage.mas2j']
+    args = ['Restaurant.mas2j']
 	// options:
 	//     args = ['Garage.mas2j', '--debug', '--no-net', '--empty-mas']
 	//     args = ['Garage.mas2j', '--log-conf', 'l.p'] // to use file l.p to configure logging
@@ -52,6 +46,6 @@ task run (type: JavaExec, dependsOn: 'classes') {
 task runJade (type: JavaExec, dependsOn: 'classes') {
     description 'runs the application with Jade infrastructure'
     mainClass = 'jason.infra.jade.RunJadeMAS'
-    args = [ 'Garage.mas2j' ]
+    args = [ 'Restaurant.mas2j' ]
     classpath sourceSets.main.runtimeClasspath
 }

@@ -1,0 +1,14 @@
+/* Jason Project */
+
+MAS restaurant {
+
+    infrastructure: Centralised
+
+    environment: RestaurantEnvironment(gui)
+
+    agents:
+        navigator agentArchClass NavigatorArchitecture;
+        surveillance;
+        valet;
+}
+
