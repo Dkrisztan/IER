@@ -17,12 +17,12 @@ public class NavigatorArchitecture extends AgArch {
     static String right = "right";
  
     @Override
-        public Collection<Literal> perceive() {
-            Collection<Literal> perceptCollection = super.perceive();
-            parsePercepts(perceptCollection);
-            //printPercepts();
-            return perceptCollection;
-        }
+    public Collection<Literal> perceive() {
+        Collection<Literal> perceptCollection = super.perceive();
+        parsePercepts(perceptCollection);
+        //printPercepts();
+        return perceptCollection;
+    }
 
     private void cleanPercepts() {
         mapx=0;
@@ -31,8 +31,6 @@ public class NavigatorArchitecture extends AgArch {
     }
 
     private void parsePercepts(Collection<Literal> perceptCollection) {
-
-
         if(perceptCollection == null) return; 
 
         cleanPercepts();
@@ -77,7 +75,6 @@ public class NavigatorArchitecture extends AgArch {
     }
 
     private List<String> astar(int startx, int starty, int endx, int endy) {
-
         if(startx==endx && starty==endy) return new ArrayList<String>();
 
         if(map==null) return null;
@@ -180,7 +177,6 @@ public class NavigatorArchitecture extends AgArch {
 
         curr = new Coord(endx,endy);
 
-
         while(curr.x != startx || curr.y != starty) {
             from = cameFrom[curr.x][curr.y];
 
@@ -223,39 +219,38 @@ public class NavigatorArchitecture extends AgArch {
     }
 
     @Override
-        public void checkMail() {
-            super.checkMail();
+    public void checkMail() {
+        super.checkMail();
 
-            Iterator im = getTS().getC().getMailBox().iterator();
-            while (im.hasNext()) {
-                Message m = (Message) im.next();
-                if (m.getSender().equals("valet")) {
+        Iterator im = getTS().getC().getMailBox().iterator();
+        while (im.hasNext()) {
+            Message m = (Message) im.next();
+            if (m.getSender().equals("robot")) {
+            
+                String route = m.getPropCont().toString();
+
+                Matcher mr = Pattern.compile("route([a-zA-Z]*)\\(([0-9]*),([0-9]*),([0-9]*),([0-9]*)\\)").matcher(route);
+                mr.find();
+
+                List<String> path = astar(Integer.parseInt(mr.group(2)),
+                                            Integer.parseInt(mr.group(3)),
+                                            Integer.parseInt(mr.group(4)),
+                                            Integer.parseInt(mr.group(5)));
+                String result = "route"+mr.group(1)+"(["+String.join(",", path)+"])";
+                Message r = new Message(
+                        "tell",
+                        getAgName(),
+                        m.getSender(),
+                        result
+                        );
                 
-                    String route = m.getPropCont().toString();
-
-                    Matcher mr = Pattern.compile("route([a-zA-Z]*)\\(([0-9]*),([0-9]*),([0-9]*),([0-9]*)\\)").matcher(route);
-                    mr.find();
-
-                    List<String> path = astar(Integer.parseInt(mr.group(2)),
-                                              Integer.parseInt(mr.group(3)),
-                                              Integer.parseInt(mr.group(4)),
-                                              Integer.parseInt(mr.group(5)));
-                    String result = "route"+mr.group(1)+"(["+String.join(",", path)+"])"; 
-                    //System.out.println("RESULT : "+result);
-                    Message r = new Message(
-                            "tell",
-                            getAgName(),
-                            m.getSender(),
-                            result
-                            );
-                    
-                    try {
-                        sendMsg(r);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    im.remove(); //Feldolgoztuk
+                try {
+                    sendMsg(r);
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
+                im.remove();
             }
         }
+    }
 }

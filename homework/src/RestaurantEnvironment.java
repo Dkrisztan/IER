@@ -65,8 +65,8 @@ public class RestaurantEnvironment extends Environment {
 
             addPercept("navigator", ASSyntax.parseLiteral("dimension("+model.getWidth()+","+model.getHeight()+")"));
 
-            Location valetLoc = model.getAgPos(0);
-            addPercept("valet", ASSyntax.parseLiteral("position("+valetLoc.x+","+valetLoc.y+")"));
+            Location robotLoc = model.getAgPos(0);
+            addPercept("robot", ASSyntax.parseLiteral("position("+robotLoc.x+","+robotLoc.y+")"));
 
             for(int i=0; i<model.getWidth(); ++i) {
                 for(int j=0; j<model.getHeight(); ++j) {
@@ -96,9 +96,9 @@ public class RestaurantEnvironment extends Environment {
                     }
                     if(model.carCarriedByAgent!=null) {
                         String percept = "car("+model.carCarriedByAgent.toString()+")";
-                        addPercept("valet", ASSyntax.parseLiteral(percept));
+                        addPercept("robot", ASSyntax.parseLiteral(percept));
                     } else {
-                        addPercept("valet", ASSyntax.parseLiteral("nocar"));
+                        addPercept("robot", ASSyntax.parseLiteral("nocar"));
                     }
                 }
             }
@@ -112,7 +112,7 @@ public class RestaurantEnvironment extends Environment {
         clearPercepts();
         clearPercepts("navigator");
         clearPercepts("surveillance");
-        clearPercepts("valet");
+        clearPercepts("robot");
     }
 
 
@@ -120,7 +120,7 @@ public class RestaurantEnvironment extends Environment {
         public boolean executeAction(String agName, Structure action) {
             try {
                 Thread.sleep(100);
-                if(agName.equals("valet")) {
+                if(agName.equals("robot")) {
                     if(action.equals(up)) return model.moveAgentUp(0);
                     if(action.equals(down)) return model.moveAgentDown(0);
                     if(action.equals(left)) return model.moveAgentLeft(0);

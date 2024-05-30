@@ -8,7 +8,7 @@ public class RestaurantModel extends GridWorldModel {
     public static final String mapPath = "map.txt";
     public static final String customers = "customers.txt";
     
-    public static final int VALET = 0;
+    public static final int robot = 0;
     public static final int TABLE = 8;
     public static final int CUSTOMER = 16;
     public static final int GATE = 32;
@@ -65,7 +65,7 @@ public class RestaurantModel extends GridWorldModel {
 loop:       for(int i=0; i<width; ++i) {
                 for(int j=0; j<height; ++j) {
                     if(hasObject(GATE,i,j)) {
-                        setAgPos(VALET, i, j);  
+                        setAgPos(robot, i, j);  
                         break loop;
                     }
                 }

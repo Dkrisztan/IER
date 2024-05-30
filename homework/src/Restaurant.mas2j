@@ -9,6 +9,6 @@ MAS restaurant {
     agents:
         navigator agentArchClass NavigatorArchitecture;
         surveillance;
-        valet;
+        robot;
 }
 

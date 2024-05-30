@@ -25,27 +25,31 @@
   +carDestination(U,V);
   !getRouteToCar(A,B,X,Y).
 
-+routeToCar(X)[source(A)] : A==navigator <-
++routeToCar(X)[source(navigator)] <-
   .print("Received route to car. ",X);
   !goToCar(X).
 
-+routeToGate(X)[source(A)] : A==navigator <-
-  .print("Received route to car. ",X);
-  !goToCar(X).
++routeToGate(X)[source(robot)] <-
+  .print("Received route to gate. ",X);
+  !goToGate(X).
 
-+routeToDestination(X)[source(A)] : A==navigator <-
++routeToDestination(X)[source(navigator)] <-
   !goToDestination(X).
 
 +!goToCar([H|T]): true <-
   go(H); 
   !goToCar(T).
 
++!goToGate([H|T]): true <-
+  go(H);
+  !goToGate(T).
+
 +!goToDestination([H|T]): true <- 
   go(H); 
   !goToDestination(T).
 
 +car(X,Y) : true <-
-  .send(surveillance,tell,carOnValet(X,Y)).
+  .send(surveillance,tell,carOnrobot(X,Y)).
 
 +!goToCar(T) : T==[] & position(X,Y) & carDestination(U,V) <- 
   pickupcar; 
@@ -55,12 +59,5 @@
 
 +!goToDestination(T) : T==[] & position(A,B) <- 
   dropcar;
-  !getRouteToGate(A, B, A, B).
-  // go(left);
-  // go(left);
-  // go(left);
-  // go(down);
-  // go(down);
-  // go(down);
-  // go(down);
-  // .print("Dropped car off!").
+  !getRouteToGate(A,B,6,5);
+  .print("Dropped car off!").
