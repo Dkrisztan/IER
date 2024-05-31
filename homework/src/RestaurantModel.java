@@ -24,7 +24,7 @@ public class RestaurantModel extends GridWorldModel {
        
         try {
             BufferedReader mapFile = new BufferedReader(new FileReader(mapPath));
-            mapFile.readLine(); //Dimensions
+            mapFile.readLine();
         
             for(int i=0; i<width; ++i) {
                 String line = mapFile.readLine();
@@ -48,9 +48,9 @@ public class RestaurantModel extends GridWorldModel {
 
             String line;
             while((line = ordersFile.readLine()) != null) {
-                String[] carData = line.split(";");
-                Customer car = new Customer(carData[0], carData[1]);
-                orders.add(car);
+                String[] customerData = line.split(";");
+                Customer customer = new Customer(customerData[0], customerData[1]);
+                orders.add(customer);
             }
 
             ordersFile.close();
@@ -118,19 +118,11 @@ loop:       for(int i=0; i<width; ++i) {
     public boolean pickupAgentCar(int agent) {
         Location agLoc = getAgPos(agent);
         System.out.println("[environment] Order is being picked up from ("+agLoc.x+","+agLoc.y+").");
-<<<<<<< HEAD
-        // carCarriedByAgent = getCustomerAt(agLoc);
-        // if(carCarriedByAgent==null) {
-        //     System.out.println("[environment] Could not find any orders to be picked up at ("+agLoc.x+","+agLoc.y+").");
-        //     return false;
-        // }
-=======
         orderCarriedByAgent = getCustomerAt(agLoc);
         if(orderCarriedByAgent==null) {
             System.out.println("[environment] Could not find any orders to be picked up at ("+agLoc.x+","+agLoc.y+").");
             return false;
         }
->>>>>>> a71ee13e77135b3475c5dd1edde38e4ef01a7d79
         Customer customer = getCustomerAt(agLoc);
         customer.ordering = false;
         
@@ -154,9 +146,9 @@ loop:       for(int i=0; i<width; ++i) {
     
     public List<Customer> incomingCars() {
         List<Customer> ret = new ArrayList<>();
-        for(Customer car : orders) {
-            if(!car.ordering && hasObject(GATE, car.location)) {
-                ret.add(car);
+        for(Customer customer : orders) {
+            if(!customer.ordering && hasObject(GATE, customer.location)) {
+                ret.add(customer);
             }
         }
         return ret; 
@@ -164,9 +156,9 @@ loop:       for(int i=0; i<width; ++i) {
 
     public List<Customer> orderingCars() {
         List<Customer> ret = new ArrayList<>();
-        for(Customer car : orders) {
-            if(car.ordering && hasObject(TABLE, car.location)) {
-                ret.add(car);
+        for(Customer customer : orders) {
+            if(customer.ordering && hasObject(TABLE, customer.location)) {
+                ret.add(customer);
             }
         }
         return ret;
@@ -177,9 +169,9 @@ loop:       for(int i=0; i<width; ++i) {
     }
     
     public Customer getCustomerAt(Location location) {
-        for(Customer car : orders) {
-            if((car.location != null) && (car.location.x == location.x) && (car.location.y == location.y)) {
-               return car; 
+        for(Customer customer : orders) {
+            if((customer.location != null) && (customer.location.x == location.x) && (customer.location.y == location.y)) {
+               return customer; 
             }
         }
         return null;
@@ -187,11 +179,11 @@ loop:       for(int i=0; i<width; ++i) {
 
     public boolean generateCar(int x, int y) {
         try {
-            for(Customer car : orders) {
-                if(car.location == null) {
+            for(Customer customer : orders) {
+                if(customer.location == null) {
                     System.out.println("[environment] Generating arriving customer at ("+x+","+y+")");
-                    car.location = new Location(x,y);
-                    car.ordering = false;
+                    customer.location = new Location(x,y);
+                    customer.ordering = false;
                     add(CUSTOMER,x,y);
                     environment.updatePercepts();
                     Thread.sleep(1000);
@@ -203,7 +195,7 @@ loop:       for(int i=0; i<width; ++i) {
                         int randomIndex = rand.nextInt(emptyTables.size()); 
                         remove(CUSTOMER, new Location(x, y));
                         add(CUSTOMER, emptyTables.get(randomIndex));
-                        car.location = emptyTables.get(randomIndex);
+                        customer.location = emptyTables.get(randomIndex);
                         environment.updatePercepts();
                     }
                     return true;
