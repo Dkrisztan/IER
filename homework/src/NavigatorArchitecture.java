@@ -34,14 +34,12 @@ public class NavigatorArchitecture extends AgArch {
 
         cleanPercepts();
 
-        //Transforming Objects back to Literals and those back to Strings.
         Object[] perceptObjs = perceptCollection.toArray();
         String[] percepts = new String[perceptObjs.length];
         for(int i=0; i<perceptObjs.length; ++i) {
             percepts[i] = ((Literal)(perceptObjs[i])).toString();
         }
 
-        //Parsing the one dimension percept first, initializing map with dimensions.
         for(int i=0; i<percepts.length; ++i) {
             if(percepts[i].charAt(0) == 'd') {
                 String[] result = percepts[i].split("dimension");
@@ -52,7 +50,6 @@ public class NavigatorArchitecture extends AgArch {
             }
         }
 
-        //Parsing obstacle percepts, anything that is not a dimension percept considered an obstacle percept.
         for(int i=0; i<percepts.length; ++i) {
             if(percepts[i].charAt(0) == 'd') continue;
             String[] result = percepts[i].split("obstacle");
@@ -176,22 +173,18 @@ public class NavigatorArchitecture extends AgArch {
         while(curr.x != startx || curr.y != starty) {
             from = cameFrom[curr.x][curr.y];
 
-            //Left
             if(from.y - 1 == curr.y) {
                 path.add(left);
             }
 
-            //Right
             if(from.y + 1 == curr.y) {
                 path.add(right);
             }
 
-            //Up
             if(from.x - 1 == curr.x) {
                 path.add(up);
             }
 
-            //Down
             if(from.x + 1 == curr.x) {
                 path.add(down);
             }
