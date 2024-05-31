@@ -118,19 +118,11 @@ loop:       for(int i=0; i<width; ++i) {
     public boolean pickupAgentCar(int agent) {
         Location agLoc = getAgPos(agent);
         System.out.println("[environment] Order is being picked up from ("+agLoc.x+","+agLoc.y+").");
-<<<<<<< HEAD
-        // carCarriedByAgent = getCustomerAt(agLoc);
-        // if(carCarriedByAgent==null) {
-        //     System.out.println("[environment] Could not find any orders to be picked up at ("+agLoc.x+","+agLoc.y+").");
-        //     return false;
-        // }
-=======
         orderCarriedByAgent = getCustomerAt(agLoc);
         if(orderCarriedByAgent==null) {
             System.out.println("[environment] Could not find any orders to be picked up at ("+agLoc.x+","+agLoc.y+").");
             return false;
         }
->>>>>>> a71ee13e77135b3475c5dd1edde38e4ef01a7d79
         Customer customer = getCustomerAt(agLoc);
         customer.ordering = false;
         
@@ -222,5 +214,14 @@ loop:       for(int i=0; i<width; ++i) {
             environment.updatePercepts();
             System.out.println("[environment] Customer left from ("+x+","+y+")");
         }
+    }
+    public boolean leaveTable(int agent){
+        Location agLoc = getAgPos(agent);
+        if(hasObject(CUSTOMER, agLoc)){
+            removeCustomer(agLoc.x, agLoc.y);
+            return true;
+        }
+        environment.updatePercepts();
+        return false;
     }
 }

@@ -19,6 +19,7 @@ public class RestaurantEnvironment extends Environment {
     private Term left  = DefaultTerm.parse("go(left)");
     private Term pickuporder = DefaultTerm.parse("pickuporder");
     private Term dropcar = DefaultTerm.parse("dropcar");
+    private Term leavetable = DefaultTerm.parse("leavetable");
 
     @Override
     public void init(String[] args) {
@@ -123,6 +124,7 @@ public class RestaurantEnvironment extends Environment {
                 if(action.equals(right)) return model.moveAgentRight(0);
                 if(action.equals(dropcar)) return model.dropAgentCar(0);
                 if(action.equals(pickuporder)) return model.pickupAgentCar(0);
+                if(action.equals(leavetable)) return model.leaveTable(0);
                 
                 return super.executeAction(agName, action);
             }

@@ -20,7 +20,7 @@
 //   !callrobot(X,Y,U,V).
 
 +orderAt(X,Y) : bar(U,V) <-
-  .print("There is a customer at (",X,",",Y,") waiting to get out of the restaurant. Calling robot...");
+  .print("There is a customer at (",X,",",Y,") waiting to order. Calling robot...");
   !callrobot(X,Y,U,V).
 
 +!callrobot(X,Y,U,V) : true <- 
@@ -29,3 +29,6 @@
 
 +carOnrobot(X,Y) : true <-
   .print("Robot is carrying order from customer ",X," with order ",Y).
+
++orderAdded(X,Y,U,V) : true <-
+  .send(robot,achieve,finishTable(X,Y,U,V)).
