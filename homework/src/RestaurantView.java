@@ -51,6 +51,7 @@ public class RestaurantView extends GridWorldView {
                         System.out.println("left click"); // left click will be ordering
                         // model.getCustomerAt(e.getX() / cellSizeW, e.getY() / cellSizeH).ordering = true;
                         System.out.println(model.getCustomerAt(x,y));
+                        model.getCustomerAt(x, y).ordering = true;
                         update(x, y);
                         environment.updatePercepts();
                     }

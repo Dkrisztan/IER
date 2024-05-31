@@ -125,8 +125,9 @@ loop:       for(int i=0; i<width; ++i) {
             System.out.println("[environment] Could not find any orders to be picked up at ("+agLoc.x+","+agLoc.y+").");
             return false;
         }
-        remove(CUSTOMER,carCarriedByAgent.location);
-        carCarriedByAgent.location = null;
+        Customer customer = getCustomerAt(agLoc);
+        customer.ordering = false;
+        
         environment.updatePercepts(); 
         return true;
     }

@@ -21,12 +21,12 @@
   .send(navigator,ask,routeToGate(X,Y,U,V)).  
 
 +!carryCar(X,Y,U,V) : position(A,B) <-
-  .print("Received instructions to pick up car at (",X,",",Y,") and place it at (",U,",",V,").");
+  .print("Received instructions to pick up order at (",X,",",Y,") and place it at (",U,",",V,") (bar).");
   +carDestination(U,V);
   !getRouteToCar(A,B,X,Y).
 
 +routeToCar(X)[source(navigator)] <-
-  .print("Received route to car. ",X);
+  .print("Received route to order. ",X);
   !goToCar(X).
 
 +routeToGate(X)[source(robot)] <-
@@ -52,8 +52,8 @@
   .send(surveillance,tell,carOnrobot(X,Y)).
 
 +!goToCar(T) : T==[] & position(X,Y) & carDestination(U,V) <- 
-  pickupcar; 
-  .print("Picked up car!");
+  pickuporder; 
+  .print("Picked up order!");
   -carDestination(U,V);
   !getRouteToDestination(X,Y,U,V).
 
