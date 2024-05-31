@@ -39,9 +39,7 @@ public class RestaurantModel extends GridWorldModel {
                         case 'B': add(BAR, i,j); break;
                         default: break;
                     }
-
                 }
-
             }
 
             mapFile.close(); 
@@ -121,11 +119,11 @@ loop:       for(int i=0; i<width; ++i) {
 
     public boolean pickupAgentCar(int agent) {
         Location agLoc = getAgPos(agent);
-        System.out.println("[environment] Customer is being picked up from ("+agLoc.x+","+agLoc.y+").");
-        carCarriedByAgent = getCarAt(agLoc);
+        System.out.println("[environment] Order is being picked up from ("+agLoc.x+","+agLoc.y+").");
+        carCarriedByAgent = getCustomerAt(agLoc);
         if(carCarriedByAgent==null) {
-                System.out.println("[environment] Could not find any customers to be picked up at ("+agLoc.x+","+agLoc.y+").");
-                return false;
+            System.out.println("[environment] Could not find any orders to be picked up at ("+agLoc.x+","+agLoc.y+").");
+            return false;
         }
         remove(CUSTOMER,carCarriedByAgent.location);
         carCarriedByAgent.location = null;
@@ -136,8 +134,8 @@ loop:       for(int i=0; i<width; ++i) {
     public boolean dropAgentCar(int agent) {
         if(carCarriedByAgent==null) return false;
         Location agLoc = getAgPos(agent);
-        if(carCarriedByAgent.leaving && hasObject(GATE, agLoc)) {
-            carCarriedByAgent.leaving = false;
+        if(carCarriedByAgent.ordering && hasObject(GATE, agLoc)) {
+            carCarriedByAgent.ordering = false;
         } else {
             carCarriedByAgent.location = agLoc;
             add(CUSTOMER, carCarriedByAgent.location);
@@ -150,29 +148,28 @@ loop:       for(int i=0; i<width; ++i) {
     public List<Customer> incomingCars() {
         List<Customer> ret = new ArrayList<>();
         for(Customer car : cars) {
-            if(!car.leaving && hasObject(GATE, car.location)) {
+            if(!car.ordering && hasObject(GATE, car.location)) {
                 ret.add(car);
             }
         }
         return ret; 
     }
 
-
-    public List<Customer> leavingCars() {
+    public List<Customer> orderingCars() {
         List<Customer> ret = new ArrayList<>();
         for(Customer car : cars) {
-            if(car.leaving && hasObject(TABLE, car.location)) {
+            if(car.ordering && hasObject(TABLE, car.location)) {
                 ret.add(car);
             }
         }
         return ret;
     }
 
-    public Customer getCarAt(int x, int y) {
-        return getCarAt(new Location(x,y));
+    public Customer getCustomerAt(int x, int y) {
+        return getCustomerAt(new Location(x,y));
     }
     
-    public Customer getCarAt(Location location) {
+    public Customer getCustomerAt(Location location) {
         for(Customer car : cars) {
             if((car.location != null) && (car.location.x == location.x) && (car.location.y == location.y)) {
                return car; 
@@ -187,18 +184,18 @@ loop:       for(int i=0; i<width; ++i) {
                 if(car.location == null) {
                     System.out.println("[environment] Generating arriving customer at ("+x+","+y+")");
                     car.location = new Location(x,y);
-                    car.leaving = false;
+                    car.ordering = false;
                     add(CUSTOMER,x,y);
                     environment.updatePercepts();
                     Thread.sleep(1000);
                     if (this.getFreeTables().size() == 0) {
-                        System.out.println("[environment] No free tables available.");
+                        System.out.println("[environment] No empty tables available.");
                     } else {
-                        List <Location> locs = this.getFreeTables();
+                        List <Location> emptyTables = this.getFreeTables();
                         Random rand = new Random();
-                        int randomIndex = rand.nextInt(locs.size()); 
+                        int randomIndex = rand.nextInt(emptyTables.size()); 
                         remove(CUSTOMER, new Location(8, 4));
-                        add(CUSTOMER, locs.get(randomIndex));
+                        add(CUSTOMER, emptyTables.get(randomIndex));
                         environment.updatePercepts();
                     }
                 return true;
