@@ -18,7 +18,6 @@ public class RestaurantEnvironment extends Environment {
     private Term right = DefaultTerm.parse("go(right)");
     private Term left  = DefaultTerm.parse("go(left)");
     private Term pickuporder = DefaultTerm.parse("pickuporder");
-    private Term dropcar = DefaultTerm.parse("dropcar");
     private Term leavetable = DefaultTerm.parse("leavetable");
 
     @Override
@@ -75,27 +74,20 @@ public class RestaurantEnvironment extends Environment {
                     }
 
                     if(model.hasObject(model.TABLE,i,j) && model.hasObject(model.CUSTOMER,i,j)) {
-                        addPercept("surveillance", ASSyntax.parseLiteral("takenparkingspot("+i+","+j+")"));
+                        addPercept("surveillance", ASSyntax.parseLiteral("takentable("+i+","+j+")"));
                         if(model.getCustomerAt(i,j).ordering) {
                             addPercept("surveillance", ASSyntax.parseLiteral("orderAt("+i+","+j+")"));
                         }
                     }
 
-                    if(model.hasObject(model.TABLE,i,j) && !(model.hasObject(model.CUSTOMER,i,j))) {
-                        addPercept("surveillance", ASSyntax.parseLiteral("emptyparkingspot("+i+","+j+")"));
-                    }
-
                     if(model.hasObject(model.BAR,i,j)) {
                         addPercept("surveillance", ASSyntax.parseLiteral("bar("+i+","+j+")"));
-                        if((model.getCustomerAt(i,j)!=null) && (model.getCustomerAt(i,j).ordering==false)) {
-                            addPercept("surveillance", ASSyntax.parseLiteral("carArrived("+i+","+j+")"));
-                        }
                     }
                     if(model.orderCarriedByAgent!=null) {
-                        String percept = "car("+model.orderCarriedByAgent.toString()+")";
+                        String percept = "order("+model.orderCarriedByAgent.toString()+")";
                         addPercept("robot", ASSyntax.parseLiteral(percept));
                     } else {
-                        addPercept("robot", ASSyntax.parseLiteral("nocar"));
+                        addPercept("robot", ASSyntax.parseLiteral("noOrder"));
                     }
                 }
             }
@@ -122,8 +114,7 @@ public class RestaurantEnvironment extends Environment {
                 if(action.equals(down)) return model.moveAgentDown(0);
                 if(action.equals(left)) return model.moveAgentLeft(0);
                 if(action.equals(right)) return model.moveAgentRight(0);
-                if(action.equals(dropcar)) return model.dropAgentCar(0);
-                if(action.equals(pickuporder)) return model.pickupAgentCar(0);
+                if(action.equals(pickuporder)) return model.pickupAgentOrder(0);
                 if(action.equals(leavetable)) return model.leaveTable(0);
                 
                 return super.executeAction(agName, action);

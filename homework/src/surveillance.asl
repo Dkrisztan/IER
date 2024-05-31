@@ -12,12 +12,8 @@
 +bar(X,Y) : true <-
   .print("bar: ",X,",",Y).
 
-+takenparkingspot(X,Y) : true <-
++takentable(X,Y) : true <-
   .print("A table at (",X,",",Y,") has been filled.").
-
-// +carArrived(X,Y) : emptyparkingspot(U,V) <-
-//   .print("There is a customer at (",X,",",Y,") waiting to be placed at a table. Calling robot...");
-//   !callrobot(X,Y,U,V).
 
 +orderAt(X,Y) : bar(U,V) <-
   .print("There is a customer at (",X,",",Y,") waiting to order. Calling robot...");
@@ -25,9 +21,9 @@
 
 +!callrobot(X,Y,U,V) : true <- 
   .print("Instructing robot to pick up the order from (",X,",",Y,") and carry it to (",U,",",V,").");
-  .send(robot,achieve,carryCar(X,Y,U,V)).
+  .send(robot,achieve,carryOrder(X,Y,U,V)).
 
-+carOnrobot(X,Y) : true <-
++orderOnrobot(X,Y) : true <-
   .print("Robot is carrying order from customer ",X," with order ",Y).
 
 +orderAdded(X,Y,U,V) : true <-
