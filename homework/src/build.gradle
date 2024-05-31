@@ -37,9 +37,8 @@ task run (type: JavaExec, dependsOn: 'classes') {
     description 'runs the application'
     mainClass = 'jason.infra.local.RunLocalMAS'
     args = ['Restaurant.mas2j']
-	// options:
-	//     args = ['Garage.mas2j', '--debug', '--no-net', '--empty-mas']
-	//     args = ['Garage.mas2j', '--log-conf', 'l.p'] // to use file l.p to configure logging
+ 
+ 
     classpath sourceSets.main.runtimeClasspath
 }
 
