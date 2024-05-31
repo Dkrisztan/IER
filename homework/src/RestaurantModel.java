@@ -212,7 +212,10 @@ loop:       for(int i=0; i<width; ++i) {
     }
 
     public void removeCustomer(int x, int y) {
-        remove(CUSTOMER, x, y);
-        environment.updatePercepts();
+        if(hasObject(CUSTOMER, x, y)){
+            remove(CUSTOMER, x, y);
+            environment.updatePercepts();
+            System.out.println("[environment] Customer left from ("+x+","+y+")");
+        }
     }
 }
