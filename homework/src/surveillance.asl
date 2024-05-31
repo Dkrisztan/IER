@@ -9,8 +9,8 @@
 +!start : true <-
   .print("Start up complete.").
 
-+gate(X,Y) : true <-
-  .print("gate: ",X,",",Y).
++bar(X,Y) : true <-
+  .print("bar: ",X,",",Y).
 
 +takenparkingspot(X,Y) : true <-
   .print("A table at (",X,",",Y,") has been filled.").
@@ -19,7 +19,7 @@
 //   .print("There is a customer at (",X,",",Y,") waiting to be placed at a table. Calling robot...");
 //   !callrobot(X,Y,U,V).
 
-+carLeaving(X,Y) : gate(U,V) <-
++orderAt(X,Y) : bar(U,V) <-
   .print("There is a customer at (",X,",",Y,") waiting to get out of the restaurant. Calling robot...");
   !callrobot(X,Y,U,V).
 

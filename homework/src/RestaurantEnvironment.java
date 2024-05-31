@@ -17,7 +17,7 @@ public class RestaurantEnvironment extends Environment {
     private Term down  = DefaultTerm.parse("go(down)");
     private Term right = DefaultTerm.parse("go(right)");
     private Term left  = DefaultTerm.parse("go(left)");
-    private Term pickupcar = DefaultTerm.parse("pickupcar");
+    private Term pickuporder = DefaultTerm.parse("pickuporder");
     private Term dropcar = DefaultTerm.parse("dropcar");
 
     @Override
@@ -76,7 +76,7 @@ public class RestaurantEnvironment extends Environment {
                     if(model.hasObject(model.TABLE,i,j) && model.hasObject(model.CUSTOMER,i,j)) {
                         addPercept("surveillance", ASSyntax.parseLiteral("takenparkingspot("+i+","+j+")"));
                         if(model.getCustomerAt(i,j).ordering) {
-                            addPercept("surveillance", ASSyntax.parseLiteral("carLeaving("+i+","+j+")"));
+                            addPercept("surveillance", ASSyntax.parseLiteral("orderAt("+i+","+j+")"));
                         }
                     }
 
@@ -85,7 +85,7 @@ public class RestaurantEnvironment extends Environment {
                     }
 
                     if(model.hasObject(model.GATE,i,j)) {
-                        addPercept("surveillance", ASSyntax.parseLiteral("gate("+i+","+j+")"));
+                        addPercept("surveillance", ASSyntax.parseLiteral("bar("+i+","+j+")"));
                         if((model.getCustomerAt(i,j)!=null) && (model.getCustomerAt(i,j).ordering==false)) {
                             addPercept("surveillance", ASSyntax.parseLiteral("carArrived("+i+","+j+")"));
                         }
@@ -122,7 +122,7 @@ public class RestaurantEnvironment extends Environment {
                 if(action.equals(left)) return model.moveAgentLeft(0);
                 if(action.equals(right)) return model.moveAgentRight(0);
                 if(action.equals(dropcar)) return model.dropAgentCar(0);
-                if(action.equals(pickupcar)) return model.pickupAgentCar(0);
+                if(action.equals(pickuporder)) return model.pickupAgentCar(0);
                 
                 return super.executeAction(agName, action);
             }
