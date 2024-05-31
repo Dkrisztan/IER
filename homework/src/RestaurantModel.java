@@ -120,11 +120,11 @@ loop:       for(int i=0; i<width; ++i) {
     public boolean pickupAgentCar(int agent) {
         Location agLoc = getAgPos(agent);
         System.out.println("[environment] Order is being picked up from ("+agLoc.x+","+agLoc.y+").");
-        carCarriedByAgent = getCustomerAt(agLoc);
-        if(carCarriedByAgent==null) {
-            System.out.println("[environment] Could not find any orders to be picked up at ("+agLoc.x+","+agLoc.y+").");
-            return false;
-        }
+        // carCarriedByAgent = getCustomerAt(agLoc);
+        // if(carCarriedByAgent==null) {
+        //     System.out.println("[environment] Could not find any orders to be picked up at ("+agLoc.x+","+agLoc.y+").");
+        //     return false;
+        // }
         Customer customer = getCustomerAt(agLoc);
         customer.ordering = false;
         

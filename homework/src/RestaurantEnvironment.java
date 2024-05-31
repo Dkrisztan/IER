@@ -84,7 +84,7 @@ public class RestaurantEnvironment extends Environment {
                         addPercept("surveillance", ASSyntax.parseLiteral("emptyparkingspot("+i+","+j+")"));
                     }
 
-                    if(model.hasObject(model.GATE,i,j)) {
+                    if(model.hasObject(model.BAR,i,j)) {
                         addPercept("surveillance", ASSyntax.parseLiteral("bar("+i+","+j+")"));
                         if((model.getCustomerAt(i,j)!=null) && (model.getCustomerAt(i,j).ordering==false)) {
                             addPercept("surveillance", ASSyntax.parseLiteral("carArrived("+i+","+j+")"));

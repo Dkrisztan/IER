@@ -54,10 +54,9 @@
 +!goToCar(T) : T==[] & position(X,Y) & carDestination(U,V) <- 
   pickuporder; 
   .print("Picked up order!");
-  -carDestination(U,V);
+  /*-carDestination(U,V);*/
   !getRouteToDestination(X,Y,U,V).
 
 +!goToDestination(T) : T==[] & position(A,B) <- 
-  dropcar;
-  !getRouteToGate(A,B,6,5);
-  .print("Dropped car off!").
+  !getRouteToGate(A,B,4,2);
+  .print("Added order!").
