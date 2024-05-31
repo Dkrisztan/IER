@@ -194,17 +194,18 @@ loop:       for(int i=0; i<width; ++i) {
                         List <Location> emptyTables = this.getFreeTables();
                         Random rand = new Random();
                         int randomIndex = rand.nextInt(emptyTables.size()); 
-                        remove(CUSTOMER, new Location(8, 4));
+                        remove(CUSTOMER, new Location(x, y));
                         add(CUSTOMER, emptyTables.get(randomIndex));
+                        car.location = emptyTables.get(randomIndex);
                         environment.updatePercepts();
                     }
-                return true;
+                    return true;
+                }
             }
-        }
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        
+
         return false;
     }
 

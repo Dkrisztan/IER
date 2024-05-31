@@ -1,3 +1,4 @@
+
 import java.io.*;
 import java.util.*;
 import java.util.logging.*;
@@ -74,9 +75,9 @@ public class RestaurantEnvironment extends Environment {
 
                     if(model.hasObject(model.TABLE,i,j) && model.hasObject(model.CUSTOMER,i,j)) {
                         addPercept("surveillance", ASSyntax.parseLiteral("takenparkingspot("+i+","+j+")"));
-                        // if(model.getCustomerAt(i,j).ordering) {
-                        //     addPercept("surveillance", ASSyntax.parseLiteral("carLeaving("+i+","+j+")"));
-                        // }
+                        if(model.getCustomerAt(i,j).ordering) {
+                            addPercept("surveillance", ASSyntax.parseLiteral("carLeaving("+i+","+j+")"));
+                        }
                     }
 
                     if(model.hasObject(model.TABLE,i,j) && !(model.hasObject(model.CUSTOMER,i,j))) {

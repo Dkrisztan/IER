@@ -15,9 +15,9 @@
 +takenparkingspot(X,Y) : true <-
   .print("A table at (",X,",",Y,") has been filled.").
 
-+carArrived(X,Y) : emptyparkingspot(U,V) <-
-  .print("There is a customer at (",X,",",Y,") waiting to be placed at a table. Calling robot...");
-  !callrobot(X,Y,U,V).
+// +carArrived(X,Y) : emptyparkingspot(U,V) <-
+//   .print("There is a customer at (",X,",",Y,") waiting to be placed at a table. Calling robot...");
+//   !callrobot(X,Y,U,V).
 
 +carLeaving(X,Y) : gate(U,V) <-
   .print("There is a customer at (",X,",",Y,") waiting to get out of the restaurant. Calling robot...");

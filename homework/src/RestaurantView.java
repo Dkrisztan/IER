@@ -31,21 +31,29 @@ public class RestaurantView extends GridWorldView {
         super.initComponents(width);
         getCanvas().addMouseListener(new MouseListener() {
             public void mouseClicked(MouseEvent e) {
-                if (e.getButton() == MouseEvent.BUTTON3) {
-                    // System.out.println("right click"); // right click will be removing / ordering the restaurant 
-                    // int x = e.getX() / cellSizeW;
-                    // int y = e.getY() / cellSizeH;
-                    // if(model.inGrid(x, y)) {
-                    //     if(model.hasObject(model.CUSTOMER, x, y)) {
-                    //         model.getCustomerAt(x, y).ordering = true;
-                    //     }
-                    // }
-                    // update(x, y);
-                    // environment.updatePercepts();
-                    model.removeCustomer(e.getX() / cellSizeW, e.getY() / cellSizeH);// right click will be removing / ordering the restaurant 
-                    environment.updatePercepts();
-                } else if (e.getButton() == MouseEvent.BUTTON1) {
-                    System.out.println("left click"); // left click will be ordering
+                int x = e.getX() / cellSizeW;
+                int y = e.getY() / cellSizeH;
+                if(model.inGrid(x,y)) {
+                    if (e.getButton() == MouseEvent.BUTTON3) {
+                        // System.out.println("right click"); // right click will be removing / ordering the restaurant 
+                        // int x = e.getX() / cellSizeW;
+                        // int y = e.getY() / cellSizeH;
+                        // if(model.inGrid(x, y)) {
+                        //     if(model.hasObject(model.CUSTOMER, x, y)) {
+                        //         model.getCustomerAt(x, y).ordering = true;
+                        //     }
+                        // }
+                        // update(x, y);
+                        // environment.updatePercepts();
+                        model.removeCustomer(x, y);// right click will be removing / ordering the restaurant 
+                        environment.updatePercepts();
+                    } else if (e.getButton() == MouseEvent.BUTTON1) {
+                        System.out.println("left click"); // left click will be ordering
+                        // model.getCustomerAt(e.getX() / cellSizeW, e.getY() / cellSizeH).ordering = true;
+                        System.out.println(model.getCustomerAt(x,y));
+                        update(x, y);
+                        environment.updatePercepts();
+                    }
                 }
             }
             public void mouseExited(MouseEvent e) {}
