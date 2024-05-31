@@ -51,7 +51,7 @@ public class RestaurantView extends GridWorldView {
             public void mouseReleased(MouseEvent e) {}
         });
 
-        Timer timer = new Timer(10000, new ActionListener() {
+        Timer timer = new Timer(7000, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if(!model.generateCar(8, 4)) {
                     System.out.println("[environment] No customer left to simulate, please append new ones to your customers.txt!");

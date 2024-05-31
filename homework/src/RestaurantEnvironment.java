@@ -122,7 +122,7 @@ public class RestaurantEnvironment extends Environment {
                 if(action.equals(left)) return model.moveAgentLeft(0);
                 if(action.equals(right)) return model.moveAgentRight(0);
                 if(action.equals(dropcar)) return model.dropAgentCar(0);
-                if(action.equals(pickuporder)) return model.pickupAgentCar(0);
+                if(action.equals(pickuporder)) return model.pickupAgentOrder(0);
                 
                 return super.executeAction(agName, action);
             }

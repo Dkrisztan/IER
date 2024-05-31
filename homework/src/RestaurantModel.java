@@ -115,7 +115,7 @@ loop:       for(int i=0; i<width; ++i) {
         return freeTables;
     }
 
-    public boolean pickupAgentCar(int agent) {
+    public boolean pickupAgentOrder(int agent) {
         Location agLoc = getAgPos(agent);
         System.out.println("[environment] Order is being picked up from ("+agLoc.x+","+agLoc.y+").");
         orderCarriedByAgent = getCustomerAt(agLoc);
@@ -144,25 +144,25 @@ loop:       for(int i=0; i<width; ++i) {
         return true;
     }
     
-    public List<Customer> incomingCars() {
-        List<Customer> ret = new ArrayList<>();
-        for(Customer customer : orders) {
-            if(!customer.ordering && hasObject(GATE, customer.location)) {
-                ret.add(customer);
-            }
-        }
-        return ret; 
-    }
+    // public List<Customer> incomingCars() {
+    //     List<Customer> ret = new ArrayList<>();
+    //     for(Customer customer : orders) {
+    //         if(!customer.ordering && hasObject(GATE, customer.location)) {
+    //             ret.add(customer);
+    //         }
+    //     }
+    //     return ret; 
+    // }
 
-    public List<Customer> orderingCars() {
-        List<Customer> ret = new ArrayList<>();
-        for(Customer customer : orders) {
-            if(customer.ordering && hasObject(TABLE, customer.location)) {
-                ret.add(customer);
-            }
-        }
-        return ret;
-    }
+    // public List<Customer> orderingCars() {
+    //     List<Customer> ret = new ArrayList<>();
+    //     for(Customer customer : orders) {
+    //         if(customer.ordering && hasObject(TABLE, customer.location)) {
+    //             ret.add(customer);
+    //         }
+    //     }
+    //     return ret;
+    // }
 
     public Customer getCustomerAt(int x, int y) {
         return getCustomerAt(new Location(x,y));
