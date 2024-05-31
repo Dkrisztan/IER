@@ -90,8 +90,8 @@ public class RestaurantEnvironment extends Environment {
                             addPercept("surveillance", ASSyntax.parseLiteral("carArrived("+i+","+j+")"));
                         }
                     }
-                    if(model.carCarriedByAgent!=null) {
-                        String percept = "car("+model.carCarriedByAgent.toString()+")";
+                    if(model.orderCarriedByAgent!=null) {
+                        String percept = "car("+model.orderCarriedByAgent.toString()+")";
                         addPercept("robot", ASSyntax.parseLiteral(percept));
                     } else {
                         addPercept("robot", ASSyntax.parseLiteral("nocar"));

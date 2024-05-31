@@ -14,10 +14,8 @@ public class RestaurantModel extends GridWorldModel {
     public static final int GATE = 32;
     public static final int BAR = 64;
 
-    public List<Customer> cars;
-    
-    public Customer carCarriedByAgent = null;
-
+    public List<Customer> orders;
+    public Customer orderCarriedByAgent = null;
     private RestaurantEnvironment environment;
 
     public RestaurantModel(int mapx, int mapy) {
@@ -44,18 +42,18 @@ public class RestaurantModel extends GridWorldModel {
 
             mapFile.close(); 
 
-            BufferedReader carsFile = new BufferedReader(new FileReader(customers));
+            BufferedReader ordersFile = new BufferedReader(new FileReader(customers));
 
-            cars = new ArrayList<>();
+            orders = new ArrayList<>();
 
             String line;
-            while((line = carsFile.readLine()) != null) {
+            while((line = ordersFile.readLine()) != null) {
                 String[] carData = line.split(";");
                 Customer car = new Customer(carData[0], carData[1]);
-                cars.add(car);
+                orders.add(car);
             }
 
-            carsFile.close();
+            ordersFile.close();
 
  
 loop:       for(int i=0; i<width; ++i) {
@@ -120,11 +118,19 @@ loop:       for(int i=0; i<width; ++i) {
     public boolean pickupAgentCar(int agent) {
         Location agLoc = getAgPos(agent);
         System.out.println("[environment] Order is being picked up from ("+agLoc.x+","+agLoc.y+").");
+<<<<<<< HEAD
         // carCarriedByAgent = getCustomerAt(agLoc);
         // if(carCarriedByAgent==null) {
         //     System.out.println("[environment] Could not find any orders to be picked up at ("+agLoc.x+","+agLoc.y+").");
         //     return false;
         // }
+=======
+        orderCarriedByAgent = getCustomerAt(agLoc);
+        if(orderCarriedByAgent==null) {
+            System.out.println("[environment] Could not find any orders to be picked up at ("+agLoc.x+","+agLoc.y+").");
+            return false;
+        }
+>>>>>>> a71ee13e77135b3475c5dd1edde38e4ef01a7d79
         Customer customer = getCustomerAt(agLoc);
         customer.ordering = false;
         
@@ -133,22 +139,22 @@ loop:       for(int i=0; i<width; ++i) {
     }
 
     public boolean dropAgentCar(int agent) {
-        if(carCarriedByAgent==null) return false;
+        if(orderCarriedByAgent==null) return false;
         Location agLoc = getAgPos(agent);
-        if(carCarriedByAgent.ordering && hasObject(GATE, agLoc)) {
-            carCarriedByAgent.ordering = false;
+        if(orderCarriedByAgent.ordering && hasObject(GATE, agLoc)) {
+            orderCarriedByAgent.ordering = false;
         } else {
-            carCarriedByAgent.location = agLoc;
-            add(CUSTOMER, carCarriedByAgent.location);
+            orderCarriedByAgent.location = agLoc;
+            add(CUSTOMER, orderCarriedByAgent.location);
         }
-        carCarriedByAgent = null;
+        orderCarriedByAgent = null;
         environment.updatePercepts();
         return true;
     }
     
     public List<Customer> incomingCars() {
         List<Customer> ret = new ArrayList<>();
-        for(Customer car : cars) {
+        for(Customer car : orders) {
             if(!car.ordering && hasObject(GATE, car.location)) {
                 ret.add(car);
             }
@@ -158,7 +164,7 @@ loop:       for(int i=0; i<width; ++i) {
 
     public List<Customer> orderingCars() {
         List<Customer> ret = new ArrayList<>();
-        for(Customer car : cars) {
+        for(Customer car : orders) {
             if(car.ordering && hasObject(TABLE, car.location)) {
                 ret.add(car);
             }
@@ -171,7 +177,7 @@ loop:       for(int i=0; i<width; ++i) {
     }
     
     public Customer getCustomerAt(Location location) {
-        for(Customer car : cars) {
+        for(Customer car : orders) {
             if((car.location != null) && (car.location.x == location.x) && (car.location.y == location.y)) {
                return car; 
             }
@@ -181,7 +187,7 @@ loop:       for(int i=0; i<width; ++i) {
 
     public boolean generateCar(int x, int y) {
         try {
-            for(Customer car : cars) {
+            for(Customer car : orders) {
                 if(car.location == null) {
                     System.out.println("[environment] Generating arriving customer at ("+x+","+y+")");
                     car.location = new Location(x,y);

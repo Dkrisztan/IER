@@ -35,23 +35,11 @@ public class RestaurantView extends GridWorldView {
                 int y = e.getY() / cellSizeH;
                 if(model.inGrid(x,y)) {
                     if (e.getButton() == MouseEvent.BUTTON3) {
-                        // System.out.println("right click"); // right click will be removing / ordering the restaurant 
-                        // int x = e.getX() / cellSizeW;
-                        // int y = e.getY() / cellSizeH;
-                        // if(model.inGrid(x, y)) {
-                        //     if(model.hasObject(model.CUSTOMER, x, y)) {
-                        //         model.getCustomerAt(x, y).ordering = true;
-                        //     }
-                        // }
-                        // update(x, y);
-                        // environment.updatePercepts();
-                        model.removeCustomer(x, y);// right click will be removing / ordering the restaurant 
+                        model.removeCustomer(x, y);// right click will be removing the customer from the restaurant
                         environment.updatePercepts();
-                    } else if (e.getButton() == MouseEvent.BUTTON1) {
-                        System.out.println("left click"); // left click will be ordering
-                        // model.getCustomerAt(e.getX() / cellSizeW, e.getY() / cellSizeH).ordering = true;
-                        System.out.println(model.getCustomerAt(x,y));
+                    } else if (e.getButton() == MouseEvent.BUTTON1 && model.hasObject(model.CUSTOMER, x, y)) { // left click is for ordering
                         model.getCustomerAt(x, y).ordering = true;
+                        System.out.println("[environment] Customer: " + model.getCustomerAt(x, y).customer + " Order: " + model.getCustomerAt(x, y).order);
                         update(x, y);
                         environment.updatePercepts();
                     }
