@@ -200,8 +200,7 @@ public class NavigatorArchitecture extends AgArch {
         }
 
         Collections.reverse(path);
-
-        System.out.println("[navigator] A* -> From: ("+startx+","+starty+") To: ("+endx+","+endy+") -> Path: "+path);
+        System.out.println("[navigator] A*: From: ("+startx+","+starty+") To: ("+endx+","+endy+") -> Path: "+path);
         
         return path;
     }

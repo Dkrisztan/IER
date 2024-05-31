@@ -1,5 +1,3 @@
-// Environment code for project Garage.mas2j
-
 import java.io.*;
 import java.util.*;
 import java.util.logging.*;
@@ -76,7 +74,7 @@ public class RestaurantEnvironment extends Environment {
 
                     if(model.hasObject(model.TABLE,i,j) && model.hasObject(model.CUSTOMER,i,j)) {
                         addPercept("surveillance", ASSyntax.parseLiteral("takenparkingspot("+i+","+j+")"));
-                        // if(model.getCarAt(i,j).leaving) {
+                        // if(model.getCustomerAt(i,j).ordering) {
                         //     addPercept("surveillance", ASSyntax.parseLiteral("carLeaving("+i+","+j+")"));
                         // }
                     }
@@ -87,7 +85,7 @@ public class RestaurantEnvironment extends Environment {
 
                     if(model.hasObject(model.GATE,i,j)) {
                         addPercept("surveillance", ASSyntax.parseLiteral("gate("+i+","+j+")"));
-                        if((model.getCarAt(i,j)!=null) && (model.getCarAt(i,j).leaving==false)) {
+                        if((model.getCustomerAt(i,j)!=null) && (model.getCustomerAt(i,j).ordering==false)) {
                             addPercept("surveillance", ASSyntax.parseLiteral("carArrived("+i+","+j+")"));
                         }
                     }
