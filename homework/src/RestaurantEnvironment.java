@@ -22,43 +22,40 @@ public class RestaurantEnvironment extends Environment {
     private Term dropcar = DefaultTerm.parse("dropcar");
 
     @Override
-        public void init(String[] args) {
-            super.init(args);
+    public void init(String[] args) {
+        super.init(args);
 
-            try {
+        try {
 
-                BufferedReader mapFile = new BufferedReader(new FileReader(RestaurantModel.mapPath));
+            BufferedReader mapFile = new BufferedReader(new FileReader(RestaurantModel.mapPath));
 
-                String[] dim = mapFile.readLine().split(" ");
-                int mapx = Integer.parseInt(dim[0]);
-                int mapy = Integer.parseInt(dim[1]);
+            String[] dim = mapFile.readLine().split(" ");
+            int mapx = Integer.parseInt(dim[0]);
+            int mapy = Integer.parseInt(dim[1]);
 
-                model = new RestaurantModel(mapx, mapy);
-                model.setEnvironment(this);
+            model = new RestaurantModel(mapx, mapy);
+            model.setEnvironment(this);
 
-                mapFile.close();
+            mapFile.close();
 
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            if(args.length>=1 && args[0].equals("gui")) {
-                RestaurantView view = new RestaurantView(model, this);
-                model.setView(view);
-            }
-
-            updatePercepts();
-
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
+        if(args.length>=1 && args[0].equals("gui")) {
+            RestaurantView view = new RestaurantView(model, this);
+            model.setView(view);
+        }
+        updatePercepts();
+    }
 
     @Override
-        public void stop() {
-            deletePercepts();
-            super.stop();
-        }
+    public void stop() {
+        deletePercepts();
+        super.stop();
+    }
 
     public void updatePercepts() {
-
         deletePercepts();
 
         try {
@@ -79,9 +76,9 @@ public class RestaurantEnvironment extends Environment {
 
                     if(model.hasObject(model.TABLE,i,j) && model.hasObject(model.CUSTOMER,i,j)) {
                         addPercept("surveillance", ASSyntax.parseLiteral("takenparkingspot("+i+","+j+")"));
-                        if(model.getCarAt(i,j).leaving) {
-                            addPercept("surveillance", ASSyntax.parseLiteral("carLeaving("+i+","+j+")"));
-                        }
+                        // if(model.getCarAt(i,j).leaving) {
+                        //     addPercept("surveillance", ASSyntax.parseLiteral("carLeaving("+i+","+j+")"));
+                        // }
                     }
 
                     if(model.hasObject(model.TABLE,i,j) && !(model.hasObject(model.CUSTOMER,i,j))) {
@@ -117,25 +114,25 @@ public class RestaurantEnvironment extends Environment {
 
 
     @Override
-        public boolean executeAction(String agName, Structure action) {
-            try {
-                Thread.sleep(100);
-                if(agName.equals("robot")) {
-                    if(action.equals(up)) return model.moveAgentUp(0);
-                    if(action.equals(down)) return model.moveAgentDown(0);
-                    if(action.equals(left)) return model.moveAgentLeft(0);
-                    if(action.equals(right)) return model.moveAgentRight(0);
-                    if(action.equals(dropcar)) return model.dropAgentCar(0);
-                    if(action.equals(pickupcar)) return model.pickupAgentCar(0);
-                    
-                    return super.executeAction(agName, action);
-                }
-            } catch (InterruptedException e) {
-            } catch (Exception e) {
-                e.printStackTrace();
+    public boolean executeAction(String agName, Structure action) {
+        try {
+            Thread.sleep(100);
+            if(agName.equals("robot")) {
+                if(action.equals(up)) return model.moveAgentUp(0);
+                if(action.equals(down)) return model.moveAgentDown(0);
+                if(action.equals(left)) return model.moveAgentLeft(0);
+                if(action.equals(right)) return model.moveAgentRight(0);
+                if(action.equals(dropcar)) return model.dropAgentCar(0);
+                if(action.equals(pickupcar)) return model.pickupAgentCar(0);
+                
+                return super.executeAction(agName, action);
             }
-            return false;
+        } catch (InterruptedException e) {
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        return false;
+    }
 }
 
 

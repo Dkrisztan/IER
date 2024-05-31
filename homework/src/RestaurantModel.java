@@ -12,6 +12,7 @@ public class RestaurantModel extends GridWorldModel {
     public static final int TABLE = 8;
     public static final int CUSTOMER = 16;
     public static final int GATE = 32;
+    public static final int BAR = 64;
 
     public List<Customer> cars;
     
@@ -24,20 +25,18 @@ public class RestaurantModel extends GridWorldModel {
         super(mapx, mapy, 1);    
        
         try {
-
             BufferedReader mapFile = new BufferedReader(new FileReader(mapPath));
             mapFile.readLine(); //Dimensions
         
             for(int i=0; i<width; ++i) {
-
                 String line = mapFile.readLine();
 
                 for(int j=0; j<height; ++j) {
-                    
                     switch(line.charAt(j)) {
                         case 'W': add(OBSTACLE, i,j); break;
                         case 'E': add(TABLE, i,j); break;
                         case 'G': add(GATE, i,j); break;
+                        case 'B': add(BAR, i,j); break;
                         default: break;
                     }
 
@@ -46,7 +45,6 @@ public class RestaurantModel extends GridWorldModel {
             }
 
             mapFile.close(); 
-
 
             BufferedReader carsFile = new BufferedReader(new FileReader(customers));
 
@@ -65,7 +63,7 @@ public class RestaurantModel extends GridWorldModel {
 loop:       for(int i=0; i<width; ++i) {
                 for(int j=0; j<height; ++j) {
                     if(hasObject(GATE,i,j)) {
-                        setAgPos(robot, i, j);  
+                        setAgPos(robot, 4, 2);  
                         break loop;
                     }
                 }
@@ -100,22 +98,33 @@ loop:       for(int i=0; i<width; ++i) {
         Location newAgLoc = new Location(agLoc.x+xdif, agLoc.y+ydif);
         
         if(!inGrid(newAgLoc)) return false;
-
         if(!(isFree(newAgLoc) || (hasObject(TABLE, newAgLoc) && !hasObject(CUSTOMER, newAgLoc)))) return false;
 
         setAgPos(agent, newAgLoc);
-
         environment.updatePercepts();
  
         return true;
     }
 
+    // Function for getting all the free tables
+    public List<Location> getFreeTables() {
+        List<Location> freeTables = new ArrayList<>();
+        for(int i=0; i<width; ++i) {
+            for(int j=0; j<height; ++j) {
+                if(hasObject(TABLE, i, j) && !hasObject(CUSTOMER, i, j)) {
+                    freeTables.add(new Location(i,j));
+                }
+            }
+        }
+        return freeTables;
+    }
+
     public boolean pickupAgentCar(int agent) {
         Location agLoc = getAgPos(agent);
-        System.out.println("[environment] Car is being picked up from ("+agLoc.x+","+agLoc.y+").");
+        System.out.println("[environment] Customer is being picked up from ("+agLoc.x+","+agLoc.y+").");
         carCarriedByAgent = getCarAt(agLoc);
         if(carCarriedByAgent==null) {
-                System.out.println("[environment] Could not find any cars to be picked up at ("+agLoc.x+","+agLoc.y+").");
+                System.out.println("[environment] Could not find any customers to be picked up at ("+agLoc.x+","+agLoc.y+").");
                 return false;
         }
         remove(CUSTOMER,carCarriedByAgent.location);
@@ -173,16 +182,37 @@ loop:       for(int i=0; i<width; ++i) {
     }
 
     public boolean generateCar(int x, int y) {
-        for(Customer car : cars) {
-            if(car.location == null) {
-                System.out.println("[environment] Generating arriving car at ("+x+","+y+")");
-                car.location = new Location(x,y);
-                car.leaving = false;
-                add(CUSTOMER,x,y);
-                environment.updatePercepts();
+        try {
+            for(Customer car : cars) {
+                if(car.location == null) {
+                    System.out.println("[environment] Generating arriving customer at ("+x+","+y+")");
+                    car.location = new Location(x,y);
+                    car.leaving = false;
+                    add(CUSTOMER,x,y);
+                    environment.updatePercepts();
+                    Thread.sleep(1000);
+                    if (this.getFreeTables().size() == 0) {
+                        System.out.println("[environment] No free tables available.");
+                    } else {
+                        List <Location> locs = this.getFreeTables();
+                        Random rand = new Random();
+                        int randomIndex = rand.nextInt(locs.size()); 
+                        remove(CUSTOMER, new Location(8, 4));
+                        add(CUSTOMER, locs.get(randomIndex));
+                        environment.updatePercepts();
+                    }
                 return true;
             }
         }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        
         return false;
+    }
+
+    public void removeCustomer(int x, int y) {
+        remove(CUSTOMER, x, y);
+        environment.updatePercepts();
     }
 }

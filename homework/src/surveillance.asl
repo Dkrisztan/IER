@@ -13,14 +13,14 @@
   .print("gate: ",X,",",Y).
 
 +takenparkingspot(X,Y) : true <-
-  .print("A parking spot at (",X,",",Y,") has been filled.").
+  .print("A table at (",X,",",Y,") has been filled.").
 
 +carArrived(X,Y) : emptyparkingspot(U,V) <-
-  .print("There is a car at (",X,",",Y,") waiting to be placed in the parking area. Calling robot...");
+  .print("There is a customer at (",X,",",Y,") waiting to be placed at a table. Calling robot...");
   !callrobot(X,Y,U,V).
 
 +carLeaving(X,Y) : gate(U,V) <-
-  .print("There is a car at (",X,",",Y,") waiting to get out of the parking area. Calling robot...");
+  .print("There is a customer at (",X,",",Y,") waiting to get out of the restaurant. Calling robot...");
   !callrobot(X,Y,U,V).
 
 +!callrobot(X,Y,U,V) : true <- 

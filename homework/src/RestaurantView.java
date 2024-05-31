@@ -3,8 +3,9 @@ import jason.environment.grid.*;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
-
+import javax.swing.Timer;
 import java.awt.event.*;
+import java.util.*;
 
 public class RestaurantView extends GridWorldView {
 
@@ -19,39 +20,50 @@ public class RestaurantView extends GridWorldView {
         setVisible(true);
         repaint();
     }
-
-    //Built in
-    //public static final int CLEAN = 0;
-    //public static final int AGENT = 2;
-    //public static final int OBSTACLE = 4;
+    
     public static final int TABLE = 8;
     public static final int CUSTOMER = 16;
     public static final int GATE = 32;
+    public static final int BAR = 64;
 
     @Override
     public void initComponents(int width) {
         super.initComponents(width);
         getCanvas().addMouseListener(new MouseListener() {
             public void mouseClicked(MouseEvent e) {
-                int x = e.getX() / cellSizeW;
-                int y = e.getY() / cellSizeH;
-                if(model.inGrid(x, y)) {
-                    if(model.hasObject(model.GATE, x, y)) {
-                        if(!model.generateCar(x, y)) {
-                            System.out.println("[environment] No customer left to simulate, please append new ones to your customers.txt!");
-                        }
-                    } else if(model.hasObject(model.CUSTOMER, x, y)) {
-                        model.getCarAt(x, y).leaving = true;
-                    }
+                if (e.getButton() == MouseEvent.BUTTON3) {
+                    // System.out.println("right click"); // right click will be removing / leaving the restaurant 
+                    // int x = e.getX() / cellSizeW;
+                    // int y = e.getY() / cellSizeH;
+                    // if(model.inGrid(x, y)) {
+                    //     if(model.hasObject(model.CUSTOMER, x, y)) {
+                    //         model.getCarAt(x, y).leaving = true;
+                    //     }
+                    // }
+                    // update(x, y);
+                    // environment.updatePercepts();
+                    model.removeCustomer(e.getX() / cellSizeW, e.getY() / cellSizeH);// right click will be removing / leaving the restaurant 
+                    environment.updatePercepts();
+                } else if (e.getButton() == MouseEvent.BUTTON1) {
+                    System.out.println("left click"); // left click will be ordering
                 }
-                update(x, y);
-                environment.updatePercepts();
             }
             public void mouseExited(MouseEvent e) {}
             public void mouseEntered(MouseEvent e) {}
             public void mousePressed(MouseEvent e) {}
             public void mouseReleased(MouseEvent e) {}
         });
+
+        Timer timer = new Timer(10000, new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if(!model.generateCar(8, 4)) {
+                    System.out.println("[environment] No customer left to simulate, please append new ones to your customers.txt!");
+                }
+                update(8, 4);
+                environment.updatePercepts();
+            }
+        });
+        timer.start();
     }
 
     @Override
@@ -59,6 +71,8 @@ public class RestaurantView extends GridWorldView {
         switch (object) {
 
             case RestaurantModel.TABLE:
+                g.setColor(new Color(196, 164, 132));
+                g.fillRect(x * cellSizeW, y * cellSizeH, cellSizeW, cellSizeH);
                 g.setColor(Color.black);
                 drawStringAbove(g, x, y, defaultFont, "TABLE");
                 break;
@@ -69,7 +83,15 @@ public class RestaurantView extends GridWorldView {
                 break;
 
             case RestaurantModel.GATE:
-                g.setColor(Color.green);
+                Color gateColor = new Color(0, 128, 0);
+                g.setColor(gateColor);
+                drawStringAbove(g, x, y, defaultFont, "ENTRY");
+                break;
+
+            case RestaurantModel.BAR:
+                g.setColor(new Color(119, 64, 65));
+                g.fillRect(x * cellSizeW, y * cellSizeH, cellSizeW, cellSizeH);
+                g.setColor(new Color(255,105,180));
                 drawStringAbove(g, x, y, defaultFont, "BAR");
                 break;
 

@@ -20,7 +20,6 @@ public class NavigatorArchitecture extends AgArch {
     public Collection<Literal> perceive() {
         Collection<Literal> perceptCollection = super.perceive();
         parsePercepts(perceptCollection);
-        //printPercepts();
         return perceptCollection;
     }
 
@@ -79,7 +78,6 @@ public class NavigatorArchitecture extends AgArch {
 
         if(map==null) return null;
 
-        //Distance array for Dijkstra's algorithm
         int[][] g = new int[mapx][mapy];
         for(int i=0; i<mapx; ++i) {
             for(int j=0; j<mapy; ++j) {
@@ -88,7 +86,6 @@ public class NavigatorArchitecture extends AgArch {
         }
         g[startx][starty] = 0; 
 
-        //Added heuristics to array g for A*
         int[][] f = new int[mapx][mapy];
         for(int i=0; i<mapx; ++i) {
             for(int j=0; j<mapy; ++j) {
@@ -100,7 +97,6 @@ public class NavigatorArchitecture extends AgArch {
 
         cameFrom[startx][starty] = new Coord(-1,-1);
 
-        //Nodes that have been expanded from and closed in Dijsktra's algorithm 
         boolean[][] closed = new boolean[mapx][mapy];
         for(int i=0; i<mapx; ++i) {
             for(int j=0; j<mapy; ++j) {
@@ -205,7 +201,7 @@ public class NavigatorArchitecture extends AgArch {
 
         Collections.reverse(path);
 
-        System.out.println("[navigator] A* has been completed! From: ("+startx+","+starty+") To: ("+endx+","+endy+") I have calculated the following path: "+path);
+        System.out.println("[navigator] A* -> From: ("+startx+","+starty+") To: ("+endx+","+endy+") -> Path: "+path);
         
         return path;
     }

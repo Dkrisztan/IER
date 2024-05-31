@@ -1,10 +1,10 @@
 9 11
 WWWWWWWWWWW
-W-E-E-E-E-W
-W---------W
-W-E-E-E-E-W
-W---------W
-W-E-E-E-E-W
-W---------W
-W-E-E-E-E-W
-WWWWWGWWWWW
+WW-E-E-E-EW
+WW--------W
+WW-E-E-E-EW
+WB--------W
+WW-E-E-E-EW
+WW--------W
+WW-E-E-E-EW
+WWWWGWWWWWW

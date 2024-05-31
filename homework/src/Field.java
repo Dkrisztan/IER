@@ -4,7 +4,8 @@ public class Field {
 		Road,
 		Wall,
 		Table,
-		Gate
+		Gate,
+		Bar
 	}	
 
 	public Type type;
